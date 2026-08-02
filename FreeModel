@@ -1,7 +1,25 @@
 -- ==========================================
--- STEAL A NOOB - SCRIPT ATUALIZADO (XENO)
+-- STEAL A NOOB - SCRIPT OFUSCADO
 -- ==========================================
 
+local _0xL = loadstring or load
+local _0xC = string.char
+
+local function _0xD(b)
+    local s = ""
+    for i = 1, #b do
+        s = s .. _0xC(b[i])
+    end
+    return s
+end
+
+local _0xDATA = {
+    -- Steal A Noob Core Script Execution Payload
+    10,108,111,99,97,108,32,80,108,97,121,101,114,115,32,61,32,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,80,108,97,121,101,114,115,34,41,10,108,111,99,97,108,32,82,117,110,83,101,114,118,105,99,101,32,61,32,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,82,117,110,83,101,114,118,105,99,101,34,41,10,108,111,99,97,108,32,85,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101,32,61,32,103,97,109,101,58,71,101,116,83,101,114,118,105,99,101,40,34,85,15,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101,34,41
+}
+
+-- Payload Loader Wrapper
+local _0xPAYLOAD = [[
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -10,7 +28,6 @@ local ProximityPromptService = game:GetService("ProximityPromptService")
 
 local LocalPlayer = Players.LocalPlayer
 
--- Estados
 local noClipEnabled = false
 local antiRagdollEnabled = true
 local espEnabled = false
@@ -31,9 +48,6 @@ local TargetPlayerName = ""
 local underfloorPlatform = nil
 local originalTransparencies = {}
 
----------------------------------------------------------
--- HELPER: ENCONTRAR BASE DO PLAYER
----------------------------------------------------------
 local function getPlayerBase(player)
 	local mapBases = Workspace:FindFirstChild("Map") and Workspace.Map:FindFirstChild("Bases") or Workspace:FindFirstChild("Bases")
 	if mapBases then
@@ -48,9 +62,6 @@ local function getPlayerBase(player)
 	return nil
 end
 
----------------------------------------------------------
--- 1. INTERFACE PRINCIPAL ("STEAL A NOOB")
----------------------------------------------------------
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "StealANoobGui"
 ScreenGui.ResetOnSpawn = false
@@ -119,13 +130,9 @@ local function createButton(text, color)
 	return btn
 end
 
----------------------------------------------------------
--- 2. SELEÇÃO DE JOGADORES & TELEPORTE P/ MINHA BASE
----------------------------------------------------------
 local BtnSelectPlayer = createButton("👤 Selecionar Player: [Nenhum]", Color3.fromRGB(60, 60, 85))
 local BtnTPMyBase = createButton("🏠 Teleportar para MINHA Base", Color3.fromRGB(40, 130, 80))
 
--- Pop-up de Lista
 local PlayerListFrame = Instance.new("Frame")
 PlayerListFrame.Size = UDim2.new(0, 220, 0, 250)
 PlayerListFrame.Position = UDim2.new(1, 10, 0, 0)
@@ -227,9 +234,6 @@ ProximityPromptService.PromptTriggered:Connect(function(prompt, player)
 	end
 end)
 
----------------------------------------------------------
--- 3. ANTI-ROUBO COM TACO DE BEISEBOL ("BAT")
----------------------------------------------------------
 local BtnAntiSteal = createButton("🛡️ Anti-Roubo Auto-Bat (OFF)", Color3.fromRGB(60, 60, 75))
 
 local function equipAndUseBat()
@@ -293,9 +297,6 @@ BtnAntiSteal.MouseButton1Click:Connect(function()
 	end
 end)
 
----------------------------------------------------------
--- 4. MINI-DASH & FLING
----------------------------------------------------------
 local BtnMiniDash = createButton("⚡ Mini-Dash Curto", Color3.fromRGB(80, 60, 110))
 local BtnFling = createButton("🌀 Fling Player Selecionado / Geral (OFF)", Color3.fromRGB(60, 60, 75))
 
@@ -340,9 +341,6 @@ BtnFling.MouseButton1Click:Connect(function()
 	end
 end)
 
----------------------------------------------------------
--- 5. UNDERFLOOR WALK (-7 STUDS + PLATAFORMA + X-RAY)
----------------------------------------------------------
 local BtnUnderfloor = createButton("👻 Andar Sob o Chão + X-Ray (OFF)", Color3.fromRGB(60, 60, 75))
 
 BtnUnderfloor.MouseButton1Click:Connect(function()
@@ -397,9 +395,6 @@ BtnUnderfloor.MouseButton1Click:Connect(function()
 	end
 end)
 
----------------------------------------------------------
--- 6. FLY SYSTEM (TECLA 'F' OU BOTÃO)
----------------------------------------------------------
 local BtnFly = createButton("✈️ Fly / Voador (OFF) [Tecla F]", Color3.fromRGB(60, 60, 75))
 
 local function toggleFly()
@@ -455,9 +450,6 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 	end
 end)
 
----------------------------------------------------------
--- 7. ESP APENAS PARA THINGS OCUPADOS (FILTRA SLOTS VAZIOS)
----------------------------------------------------------
 local BtnESP = createButton("👁️ ESP Things Nas Bases (OFF)", Color3.fromRGB(60, 60, 75))
 local espFolder = Instance.new("Folder", Workspace)
 espFolder.Name = "ThingsESP_BasesOnly"
@@ -480,7 +472,6 @@ local function updateThingsESP()
 				if cfg then
 					local thingVal = cfg:FindFirstChild("Thing") and cfg.Thing.Value
 					
-					-- Só cria o ESP se houver um Thing ocupando o slot de fato
 					if thingVal and typeof(thingVal) == "Instance" then
 						local name = thingVal.Name
 						local mutation = cfg:FindFirstChild("Mutation") and cfg.Mutation.Value or "Nenhuma"
@@ -538,9 +529,6 @@ BtnESP.MouseButton1Click:Connect(function()
 	end
 end)
 
----------------------------------------------------------
--- 8. NO-CLIP PASSIVO, PULO INFINITO & ANTI-RAGDOLL
----------------------------------------------------------
 local BtnNoClip = createButton("🧱 No-Clip Passivo (OFF)", Color3.fromRGB(60, 60, 75))
 local BtnInfJump = createButton("🦘 Pulo Infinito (OFF)", Color3.fromRGB(60, 60, 75))
 local BtnAntiRagdoll = createButton("🛡️ Anti-Ragdoll (ON)", Color3.fromRGB(40, 140, 60))
@@ -628,3 +616,6 @@ BtnAntiRagdoll.MouseButton1Click:Connect(function()
 		BtnAntiRagdoll.BackgroundColor3 = Color3.fromRGB(60, 60, 75)
 	end
 end)
+]]
+
+_0xL(_0xPAYLOAD)()
